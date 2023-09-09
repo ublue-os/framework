@@ -1,0 +1,32 @@
+{
+    "all": {
+        "include": {
+            "all": [
+                "fprintd",
+                "tlp",
+                "tlp-rdw"
+            ]
+        },
+        "exclude": {
+            "all": [
+                "power-profiles-daemon"
+            ]
+        }
+    },
+    "37": {
+        "include": {
+            "all": []
+        },
+        "exclude": {
+            "all": []
+        }
+    },
+    "38": {
+        "include": {
+            "all": []
+        },
+        "exclude": {
+            "all": []
+        }
+    }
+}
