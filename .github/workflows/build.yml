@@ -26,7 +26,7 @@ jobs:
       matrix:
         image_flavor: [main]
         base_name: [framework]
-        base_image_name: [silverblue, kinoite]
+        base_image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate]
         major_version: [37, 38]
         include:
           - major_version: 37
@@ -119,7 +119,6 @@ jobs:
           tags: |
             ${{ steps.generate-tags.outputs.alias_tags }}
           build-args: |
-            IMAGE_NAME=${{ env.IMAGE_NAME }}
             IMAGE_FLAVOR=${{ matrix.image_flavor }}
             BASE_IMAGE_NAME=${{ matrix.base_image_name }}
             FEDORA_MAJOR_VERSION=${{ matrix.major_version }}
