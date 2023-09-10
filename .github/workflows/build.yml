@@ -27,11 +27,8 @@ jobs:
         image_flavor: [main]
         base_name: [framework]
         base_image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate]
-        major_version: [37, 38]
+        major_version: [38]
         include:
-          - major_version: 37
-            is_latest_version: false
-            is_stable_version: true
           - major_version: 38
             is_latest_version: true
             is_stable_version: true
