@@ -19,7 +19,7 @@ COPY framework-packages.json /tmp/framework-packages.json
 # Setup specific files and commands for Silverblue
 RUN if grep -q "silverblue" <<< "${BASE_IMAGE_NAME}"; then \
     rsync -rvK /tmp/silverblue/ / && \    
-    systemctl enable dconf-updatee \
+    systemctl enable dconf-update \
 ; fi
 
 # Setup things which are the same for every image
