@@ -15,6 +15,7 @@ COPY framework-packages.json /tmp/framework-packages.json
 RUN /tmp/framework-install.sh && \
     systemctl enable tlp && \
     systemctl enable fprintd && \
+    systemctl enable dconf-update && \
     rm -rf /tmp/* /var/* && \    
     ostree container commit && \
     mkdir -p /var/tmp && chmod -R 1777 /tmp /var/tmp
