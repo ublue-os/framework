@@ -4,7 +4,7 @@ ARG SOURCE_IMAGE="${SOURCE_IMAGE:-${BASE_IMAGE_NAME}-${IMAGE_FLAVOR}}"
 ARG BASE_IMAGE="ghcr.io/ublue-os/${SOURCE_IMAGE}"
 ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION:-38}"
 
-FROM ${BASE_IMAGE}:${FEDORA_MAJOR_VERSION} AS framework
+FROM ${BASE_IMAGE}:${FEDORA_MAJOR_VERSION} AS surface
 ARG BASE_IMAGE_NAME="${BASE_IMAGE_NAME:-silverblue}"
 ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION:-38}"
 
@@ -13,8 +13,8 @@ ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION:-38}"
 COPY system_files/ /tmp/
 # Copy shared files between all images.
 COPY system_files/shared /
-COPY framework-install.sh /tmp/framework-install.sh
-COPY framework-packages.json /tmp/framework-packages.json
+COPY surface-install.sh /tmp/surface-install.sh
+COPY surface-packages.json /tmp/surface-packages.json
 
 # Setup specific files and commands for Silverblue
 RUN if grep -q "silverblue" <<< "${BASE_IMAGE_NAME}"; then \
@@ -23,7 +23,7 @@ RUN if grep -q "silverblue" <<< "${BASE_IMAGE_NAME}"; then \
 ; fi
 
 # Setup things which are the same for every image
-RUN /tmp/framework-install.sh && \
+RUN /tmp/surface-install.sh && \
     systemctl enable tlp && \
     systemctl enable fprintd && \
     rm -rf /tmp/* /var/* && \    
