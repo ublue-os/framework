@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image_flavor: [main, nvidia]
+        image_flavor: [-main, -nvidia]
         base_name: [framework]
         base_image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate]
         major_version: [38]
@@ -44,6 +44,7 @@ jobs:
       - name: Matrix Variables
         run: |
           echo "BASE_IMAGE_NAME=${{ matrix.base_image_name }}" >> $GITHUB_ENV
+          echo "IMAGE_FLAVOR=${{ matrix.image_flavor }}" >> $GITHUB_ENV
           if [[ "${{ matrix.image_flavor }}" =~ "main" ]]; then
               echo "IMAGE_NAME=${{ format('{0}-{1}', matrix.base_image_name, matrix.base_name) }}" >> $GITHUB_ENV
           else
@@ -120,7 +121,7 @@ jobs:
           tags: |
             ${{ steps.generate-tags.outputs.alias_tags }}
           build-args: |
-            IMAGE_FLAVOR=${{ matrix.image_flavor }}
+            IMAGE_FLAVOR=${{ env.IMAGE_FLAVOR }}
             BASE_IMAGE_NAME=${{ matrix.base_image_name }}
             FEDORA_MAJOR_VERSION=${{ matrix.major_version }}
           labels: ${{ steps.meta.outputs.labels }}
