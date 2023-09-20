@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image_flavor: [main]
+        image_flavor: [main, nvidia]
         base_name: [framework]
         base_image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate]
         major_version: [38]
@@ -44,7 +44,11 @@ jobs:
       - name: Matrix Variables
         run: |
           echo "BASE_IMAGE_NAME=${{ matrix.base_image_name }}" >> $GITHUB_ENV
-          echo "IMAGE_NAME=${{ format('{0}-{1}', matrix.base_image_name, matrix.base_name) }}" >> $GITHUB_ENV
+          if [[ "${{ matrix.image_flavor }}" =~ "main" ]]; then
+              echo "IMAGE_NAME=${{ format('{0}-{1}', matrix.base_image_name, matrix.base_name) }}" >> $GITHUB_ENV
+          else
+              echo "IMAGE_NAME=${{ format('{0}-{1}-{2}', matrix.base_image_name, matrix.base_name, matrix.image_flavor) }}" >> $GITHUB_ENV
+          fi
 
       - name: Generate tags
         id: generate-tags
