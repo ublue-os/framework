@@ -26,7 +26,7 @@ jobs:
       matrix:
         image_flavor: [-main, -nvidia]
         base_name: [framework]
-        base_image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate, bazzite, bazzite-gnome]
+        base_image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate, bazzite, bazzite-gnome, bluefin, bluefin-dx]
         major_version: [38]
         include:
           - major_version: 38
@@ -44,7 +44,8 @@ jobs:
       - name: Matrix Variables
         run: |
           echo "BASE_IMAGE_NAME=${{ matrix.base_image_name }}" >> $GITHUB_ENV
-          if ! [[ "${{ matrix.base_image_name }}" =~ "bazzite" && "${{ matrix.image_flavor }}" =~ "main" ]]; then
+          if ! [[ "${{ matrix.base_image_name }}" =~ "bazzite" && "${{ matrix.image_flavor }}" =~ "main" ]] && \
+             ! [[ "${{ matrix.base_image_name }}" =~ "bluefin" && "${{ matrix.image_flavor }}" =~ "main" ]]; then
               echo "IMAGE_FLAVOR=${{ matrix.image_flavor }}" >> $GITHUB_ENV
           fi
           if [[ "${{ matrix.image_flavor }}" =~ "main" ]]; then
