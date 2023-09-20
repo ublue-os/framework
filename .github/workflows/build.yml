@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image_flavor: [-main, -nvidia]
+        image_flavor: [-main]
         base_name: [framework]
         base_image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate, bazzite, bazzite-gnome, bluefin, bluefin-dx]
         major_version: [38]
