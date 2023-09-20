@@ -23,9 +23,11 @@ RUN if grep -q "silverblue" <<< "${BASE_IMAGE_NAME}"; then \
 ; fi
 
 # Setup things which are the same for every image
-RUN /tmp/framework-install.sh && \
+RUN wget https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-$(rpm -E %fedora)/ublue-os-staging-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_ublue-os_staging.repo && \
+    /tmp/framework-install.sh && \
     systemctl enable tlp && \
     systemctl enable fprintd && \
-    rm -rf /tmp/* /var/* && \    
+    sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_ublue-os_staging.repo && \
+    rm -rf /tmp/* /var/* && \
     ostree container commit && \
     mkdir -p /var/tmp && chmod -R 1777 /tmp /var/tmp
