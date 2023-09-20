@@ -2,15 +2,11 @@
     "all": {
         "include": {
             "all": [
-                "fprintd",
-                "tlp",
-                "tlp-rdw"
+                "fprintd"
             ]
         },
         "exclude": {
-            "all": [
-                "power-profiles-daemon"
-            ]
+            "all": []
         }
     },
     "37": {
