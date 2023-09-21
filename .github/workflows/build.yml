@@ -26,8 +26,8 @@ jobs:
       matrix:
         image_flavor: [-main]
         base_name: [framework]
-        base_image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate, bazzite, bazzite-gnome, bluefin, bluefin-dx]
-        major_version: [38]
+        base_image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate, bazzite, bazzite-gnome, bluefin, bluefin-dx, onyx]
+        major_version: [38, 39]
         include:
           - major_version: 38
             is_latest_version: true
@@ -36,6 +36,16 @@ jobs:
           # There is no Fedora 37 version of sericea
           - base_image_name: sericea
             major_version: 37
+          - base_image_name: bazzite
+            major_version: 39
+          - base_image_name: bazzite-gnome
+            major_version: 39
+          - base_image_name: vauxite
+            major_version: 39
+          - base_image_name: onyx
+            major_version: 37
+          - base_image_name: onyx
+            major_version: 38
     steps:
       # Checkout push-to-registry action GitHub repository
       - name: Checkout Push to Registry action
