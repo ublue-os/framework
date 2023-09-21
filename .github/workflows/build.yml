@@ -37,7 +37,7 @@ jobs:
           - base_image_name: sericea
             major_version: 37
           - base_image_name: bazzite
-            major_version: 38
+            major_version: 39
           - base_image_name: bazzite-gnome
             major_version: 39
     steps:
