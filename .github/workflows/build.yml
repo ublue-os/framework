@@ -26,7 +26,7 @@ jobs:
       matrix:
         image_flavor: [-main]
         base_name: [framework]
-        base_image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate, bazzite, bazzite-gnome, bluefin, bluefin-dx]
+        base_image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate, bazzite, bazzite-gnome, bluefin, bluefin-dx, onyx]
         major_version: [38, 39]
         include:
           - major_version: 38
