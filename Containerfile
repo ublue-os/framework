@@ -18,7 +18,7 @@ COPY framework-packages.json /tmp/framework-packages.json
 
 # Setup specific files and commands for Silverblue based flavors
 # like bluefin so they end up with nice backgrounds and settings
-RUN if grep -q "silverblue\|bluefin" <<< "${BASE_IMAGE_NAME}"; then \
+RUN if grep -q "silverblue\|bluefin\|bazzite-gnome" <<< "${BASE_IMAGE_NAME}"; then \
     rsync -rvK /tmp/silverblue/ / && \    
     systemctl enable dconf-update \
 ; fi
