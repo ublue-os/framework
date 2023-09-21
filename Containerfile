@@ -16,8 +16,9 @@ COPY system_files/shared /
 COPY framework-install.sh /tmp/framework-install.sh
 COPY framework-packages.json /tmp/framework-packages.json
 
-# Setup specific files and commands for Silverblue
-RUN if grep -q "silverblue" <<< "${BASE_IMAGE_NAME}"; then \
+# Setup specific files and commands for Silverblue based flavors
+# like bluefin so they end up with nice backgrounds and settings
+RUN if grep -q "silverblue\|bluefin" <<< "${BASE_IMAGE_NAME}"; then \
     rsync -rvK /tmp/silverblue/ / && \    
     systemctl enable dconf-update \
 ; fi
