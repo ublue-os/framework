@@ -28,6 +28,7 @@ RUN wget https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-$(
     /tmp/framework-install.sh && \
     systemctl enable tlp && \
     systemctl enable fprintd && \
+    cat /tmp/just/custom.just >> /usr/share/ublue-os/just/60-custom.just && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_ublue-os_staging.repo && \
     rm -rf /tmp/* /var/* && \
     ostree container commit && \
