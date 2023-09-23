@@ -14,7 +14,7 @@ COPY asus-install.sh /tmp/asus-install.sh
 COPY asus-packages.json /tmp/asus-packages.json
 
 # Remove Deck services when building for Ally
-RUN if grep -q "deck" <<< ${BASE_IMAGE_NAME}; then
+RUN if grep -q "deck" <<< ${BASE_IMAGE_NAME}; then \
     systemctl disable jupiter-fan-control.service && \
     systemctl disable jupiter-biosupdate.service && \
     systemctl disable jupiter-controller-update.service && \
@@ -26,8 +26,23 @@ RUN if grep -q "deck" <<< ${BASE_IMAGE_NAME}; then
         powerbuttond \
         vpower \
         sdgyrodsu && \
-    rm -rf /usr/lib/jupiter-dock-updater
+    rm -rf /usr/lib/jupiter-dock-updater \
 ; fi
+
+# Add Copr magic
+RUN wget https://copr.fedorainfracloud.org/coprs/lukenukem/asus-linux/repo/fedora-$(rpm -E %fedora)/lukenukem-asus-linux-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_lukenukem-asus-linux.repo && \
+    wget https://copr.fedorainfracloud.org/coprs/lukenukem/asus-kernel/repo/fedora-$(rpm -E %fedora)/lukenukem-asus-kernel-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_lukenukem-asus-kernel.repo
+
+# Install Asus kernel
+RUN rpm-ostree override replace \
+    --experimental \
+    --from repo=copr:copr.fedorainfracloud.org:lukenukem:asus-kernel \
+        kernel \
+        kernel-core \
+        kernel-modules \
+        kernel-modules-core \
+        kernel-modules-extra \
+        kernel-uki-virt
 
 # Setup things which are the same for every image
 RUN /tmp/asus-install.sh && \
