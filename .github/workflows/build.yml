@@ -1,7 +1,7 @@
-name: Build Framework
+name: Build ASUS images
 on:
   schedule:
-    - cron: '00 10 * * *'  # 10:00am everyday
+    - cron: '00 09 * * *'  # 9:00am everyday
   push:
     branches:
       - main
@@ -24,10 +24,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image_flavor: [-main, -nvidia]
-        base_name: [framework]
-        base_image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate, bazzite, bazzite-gnome, bluefin, bluefin-dx]
-        major_version: [38]
+        image_flavor: [-nokmods, -nvidia]
+        base_name: [asus]
+        base_image_name:
+          - silverblue
+          - kinoite
+          - vauxite
+          - sericea
+          - base
+          - lxqt
+          - mate
+          - bazzite
+          - bazzite-gnome
+          - bazzite-deck
+          - bazzite-deck-gnome
+          - bluefin
+          - bluefin-dx
+          - onyx
+        major_version: [38, 39]
         include:
           - major_version: 38
             is_latest_version: true
@@ -36,6 +50,24 @@ jobs:
           # There is no Fedora 37 version of sericea
           - base_image_name: sericea
             major_version: 37
+          - base_image_name: bazzite
+            major_version: 39
+          - base_image_name: bazzite-gnome
+            major_version: 39
+          - base_image_name: bazzite-deck
+            major_version: 39
+          - base_image_name: bazzite-deck
+            image_flavor: -nvidia
+          - base_image_name: bazzite-deck-gnome
+            major_version: 39
+          - base_image_name: bazzite-deck-gnome
+            image_flavor: -nvidia
+          - base_image_name: vauxite
+            major_version: 39
+          - base_image_name: onyx
+            major_version: 37
+          - base_image_name: onyx
+            major_version: 38
     steps:
       # Checkout push-to-registry action GitHub repository
       - name: Checkout Push to Registry action
@@ -48,7 +80,9 @@ jobs:
              ! [[ "${{ matrix.base_image_name }}" =~ "bluefin" && "${{ matrix.image_flavor }}" =~ "main" ]]; then
               echo "IMAGE_FLAVOR=${{ matrix.image_flavor }}" >> $GITHUB_ENV
           fi
-          if [[ "${{ matrix.image_flavor }}" =~ "main" ]]; then
+          if [[ "${{ matrix.base_image_name }}" =~ "bazzite-deck" ]]; then
+              echo "IMAGE_NAME=bazzite-ally" >> $GITHUB_ENV
+          elif [[ "${{ matrix.image_flavor }}" =~ "nokmods" ]]; then
               echo "IMAGE_NAME=${{ format('{0}-{1}', matrix.base_image_name, matrix.base_name) }}" >> $GITHUB_ENV
           else
               echo "IMAGE_NAME=${{ format('{0}-{1}{2}', matrix.base_image_name, matrix.base_name, matrix.image_flavor) }}" >> $GITHUB_ENV
@@ -111,7 +145,7 @@ jobs:
           labels: |
             org.opencontainers.image.title=${{ env.IMAGE_NAME }}
             org.opencontainers.image.version=${{ steps.labels.outputs.VERSION }}
-            org.opencontainers.image.description=Framework is an OCI image derived from Universal Blue that serves as an operating system for Framework laptops.
+            org.opencontainers.image.description=ASUS is an OCI image derived from Universal Blue that serves as an operating system for ASUS devices.
 
       # Build the image using Buildah action
       - name: Build image
@@ -182,3 +216,11 @@ jobs:
         if: github.event_name != 'pull_request'
         run: |
           echo "${{ toJSON(steps.push.outputs) }}"
+  check:
+    name: Check all builds successful
+    runs-on: ubuntu-latest
+    needs: [push-ghcr]
+    steps:
+      - name: Exit
+        shell: bash
+        run: exit 0
