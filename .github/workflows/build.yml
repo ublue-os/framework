@@ -1,4 +1,4 @@
-name: Build Framework
+name: Build ASUS images
 on:
   schedule:
     - cron: '00 09 * * *'  # 9:00am everyday
@@ -145,7 +145,7 @@ jobs:
           labels: |
             org.opencontainers.image.title=${{ env.IMAGE_NAME }}
             org.opencontainers.image.version=${{ steps.labels.outputs.VERSION }}
-            org.opencontainers.image.description=Framework is an OCI image derived from Universal Blue that serves as an operating system for Framework laptops.
+            org.opencontainers.image.description=ASUS is an OCI image derived from Universal Blue that serves as an operating system for ASUS devices.
 
       # Build the image using Buildah action
       - name: Build image
