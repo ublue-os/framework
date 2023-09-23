@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image_flavor: [-main, -nvidia]
+        image_flavor: [-nokmods, -nvidia]
         base_name: [asus]
         base_image_name:
           - silverblue
@@ -82,7 +82,7 @@ jobs:
           fi
           if [[ "${{ matrix.base_image_name }}" =~ "bazzite-deck" ]]; then
               echo "IMAGE_NAME=bazzite-ally" >> $GITHUB_ENV
-          elif [[ "${{ matrix.image_flavor }}" =~ "main" ]]; then
+          elif [[ "${{ matrix.image_flavor }}" =~ "nokmods" ]]; then
               echo "IMAGE_NAME=${{ format('{0}-{1}', matrix.base_image_name, matrix.base_name) }}" >> $GITHUB_ENV
           else
               echo "IMAGE_NAME=${{ format('{0}-{1}{2}', matrix.base_image_name, matrix.base_name, matrix.image_flavor) }}" >> $GITHUB_ENV
