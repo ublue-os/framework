@@ -26,7 +26,21 @@ jobs:
       matrix:
         image_flavor: [-main]
         base_name: [framework]
-        base_image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate, bazzite, bazzite-gnome, bluefin, bluefin-dx, onyx]
+        base_image_name:
+          - silverblue
+          - kinoite
+          - vauxite
+          - sericea
+          - base
+          - lxqt
+          - mate
+          - bazzite
+          - bazzite-gnome
+          - bazzite-deck
+          - bazzite-deck-gnome
+          - bluefin
+          - bluefin-dx
+          - onyx
         major_version: [38, 39]
         include:
           - major_version: 38
@@ -39,6 +53,10 @@ jobs:
           - base_image_name: bazzite
             major_version: 39
           - base_image_name: bazzite-gnome
+            major_version: 39
+          - base_image_name: bazzite-deck
+            major_version: 39
+          - base_image_name: bazzite-deck-gnome
             major_version: 39
           - base_image_name: vauxite
             major_version: 39
@@ -58,7 +76,13 @@ jobs:
              ! [[ "${{ matrix.base_image_name }}" =~ "bluefin" && "${{ matrix.image_flavor }}" =~ "main" ]]; then
               echo "IMAGE_FLAVOR=${{ matrix.image_flavor }}" >> $GITHUB_ENV
           fi
-          if [[ "${{ matrix.image_flavor }}" =~ "main" ]]; then
+          if [[ "${{ matrix.base_image_name }}" =~ "bazzite-deck" ]]; then
+              if [[ "${{ matrix.base_image_name }}" =~ "gnome" ]]; then
+                  echo "IMAGE_NAME=bazzite-framegame-gnome" >> $GITHUB_ENV
+              else
+                  echo "IMAGE_NAME=bazzite-framegame" >> $GITHUB_ENV
+              fi
+          elif [[ "${{ matrix.image_flavor }}" =~ "main" ]]; then
               echo "IMAGE_NAME=${{ format('{0}-{1}', matrix.base_image_name, matrix.base_name) }}" >> $GITHUB_ENV
           else
               echo "IMAGE_NAME=${{ format('{0}-{1}{2}', matrix.base_image_name, matrix.base_name, matrix.image_flavor) }}" >> $GITHUB_ENV
