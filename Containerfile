@@ -41,8 +41,7 @@ RUN rpm-ostree override replace \
         kernel-core \
         kernel-modules \
         kernel-modules-core \
-        kernel-modules-extra \
-        kernel-uki-virt
+        kernel-modules-extra
 
 # Setup things which are the same for every image
 RUN /tmp/asus-install.sh && \
