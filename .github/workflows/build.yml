@@ -81,7 +81,11 @@ jobs:
               echo "IMAGE_FLAVOR=${{ matrix.image_flavor }}" >> $GITHUB_ENV
           fi
           if [[ "${{ matrix.base_image_name }}" =~ "bazzite-deck" ]]; then
-              echo "IMAGE_NAME=bazzite-ally" >> $GITHUB_ENV
+              if [[ "${{ matrix.base_image_name }}" =~ "gnome" ]]; then
+                  echo "IMAGE_NAME=bazzite-ally-gnome" >> $GITHUB_ENV
+              else
+                  echo "IMAGE_NAME=bazzite-ally" >> $GITHUB_ENV
+              fi
           elif [[ "${{ matrix.image_flavor }}" =~ "nokmods" ]]; then
               echo "IMAGE_NAME=${{ format('{0}-{1}', matrix.base_image_name, matrix.base_name) }}" >> $GITHUB_ENV
           else
