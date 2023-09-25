@@ -42,7 +42,22 @@ RUN rpm-ostree cliwrap install-to-root / && \
         kernel-core \
         kernel-modules \
         kernel-modules-core \
-        kernel-modules-extra
+        kernel-modules-extra \
+        kernel-devel-matched \
+        kernel-tools
+
+# Install akmods
+COPY --from=ghcr.io/ublue-os/akmods:asus-${FEDORA_MAJOR_VERSION} /rpms /tmp/akmods-rpms
+# Only run if FEDORA_MAJOR_VERSION is not 39
+RUN if grep -qv "39" <<< $FEDORA_MAJOR_VERSION; then
+    rpm-ostree install \
+        /tmp/akmods-rpms/kmods/*xpadneo*.rpm \
+        /tmp/akmods-rpms/kmods/*xpad-noone*.rpm \
+        /tmp/akmods-rpms/kmods/*xone*.rpm \
+        /tmp/akmods-rpms/kmods/*openrazer*.rpm \
+        /tmp/akmods-rpms/kmods/*v4l2loopback*.rpm \
+        /tmp/akmods-rpms/kmods/*wl*.rpm
+fi
 
 # Setup things which are the same for every image
 RUN /tmp/asus-install.sh && \
