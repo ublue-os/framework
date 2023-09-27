@@ -4,7 +4,8 @@
             "all": [
                 "fprintd",
                 "tlp",
-                "tlp-rdw"
+                "tlp-rdw",
+                "powertop"
             ]
         },
         "exclude": {
