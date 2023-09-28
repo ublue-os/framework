@@ -134,7 +134,7 @@ jobs:
           tags: |
             ${{ steps.generate-tags.outputs.alias_tags }}
           build-args: |
-            IMAGE_FLAVOR=${{ env.IMAGE_FLAVOR }}
+            IMAGE_FLAVOR=${{ matrix.image_flavor }}
             BASE_IMAGE_NAME=${{ matrix.base_image_name }}
             FEDORA_MAJOR_VERSION=${{ matrix.major_version }}
           labels: ${{ steps.meta.outputs.labels }}
