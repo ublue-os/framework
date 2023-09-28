@@ -16,25 +16,9 @@ COPY system_files/shared /
 COPY framework-install.sh /tmp/framework-install.sh
 COPY framework-packages.json /tmp/framework-packages.json
 
-# Remove Deck services when building for Ally
-RUN if grep -q "deck" <<< ${BASE_IMAGE_NAME}; then \
-    systemctl disable jupiter-fan-control.service && \
-    systemctl disable jupiter-biosupdate.service && \
-    systemctl disable jupiter-controller-update.service && \
-    systemctl disable vpower.service && \
-    systemctl --global disable sdgyrodsu.service && \
-    rpm-ostree override remove \
-        jupiter-fan-control \
-        jupiter-hw-support-btrfs \
-        powerbuttond \
-        vpower \
-        sdgyrodsu && \
-    rm -rf /usr/lib/jupiter-dock-updater \
-; fi
-
 # Setup specific files and commands for Silverblue based flavors
 # like bluefin so they end up with nice backgrounds and settings
-RUN if grep -q "silverblue\|bluefin\|bazzite-gnome\|bazzite-deck-gnome" <<< "${BASE_IMAGE_NAME}"; then \
+RUN if grep -q "silverblue" <<< "${BASE_IMAGE_NAME}"; then \
     rsync -rvK /tmp/silverblue/ / && \    
     systemctl enable dconf-update \
 ; fi
