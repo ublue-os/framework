@@ -37,9 +37,14 @@ jobs:
           - onyx
         major_version: [38, 39]
         include:
+          - major_version: 39
+            is_latest_version: true
+            is_stable_version: false
+            is_gts_version: false
           - major_version: 38
             is_latest_version: true
             is_stable_version: true
+            is_gts_version: true
         exclude:
           # There is no Fedora 37 version of sericea
           - base_image_name: sericea
@@ -91,6 +96,8 @@ jobs:
           if [[ "${{ matrix.is_latest_version }}" == "true" ]] && \
              [[ "${{ matrix.is_stable_version }}" == "true" ]]; then
               BUILD_TAGS+=("latest")
+          elif [[ "${{ matrix.is_gts_version }}" == "true" ]]; then
+              BUILD_TAGS+=("gts")
           fi
 
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
