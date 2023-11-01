@@ -1,7 +1,7 @@
 name: Build Framework
 on:
   schedule:
-    - cron: '00 08 * * *'  # 7:45am everyday
+    - cron: '30 15 * * *'  # 15:30 UTC everyday
   push:
     branches:
       - main
