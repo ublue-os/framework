@@ -1,7 +1,7 @@
 name: Build Framework
 on:
   schedule:
-    - cron: '00 08 * * *'  # 8:00am everyday
+    - cron: '30 15 * * *'  # 15:30 UTC everyday
   push:
     branches:
       - main
@@ -49,8 +49,6 @@ jobs:
           # There is no Fedora 37 version of sericea
           - base_image_name: sericea
             major_version: 37
-          - base_image_name: vauxite
-            major_version: 39
           - base_image_name: onyx
             major_version: 37
           - base_image_name: onyx
