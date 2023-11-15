@@ -120,7 +120,7 @@ jobs:
       - name: Get current Fedora version
         id: labels
         run: |
-            ver=$(skopeo inspect docker://ghcr.io/ublue-os/${{ matrix.base_image_name }}-${{ matrix.image_flavor }}:${{ matrix.major_version }} | jq -r '.Labels["org.opencontainers.image.version"]')
+            ver=$(skopeo inspect docker://ghcr.io/ublue-os/${{ matrix.base_image_name }}${{ matrix.image_flavor }}:${{ matrix.major_version }} | jq -r '.Labels["org.opencontainers.image.version"]')
             echo "VERSION=$ver" >> $GITHUB_OUTPUT
 
       # Build metadata
