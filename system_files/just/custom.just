@@ -11,7 +11,7 @@ framework-13-intel:
   fi
 
 framework-13-amd:
-  rpm-ostree kargs --append="amdgpu.sg_display=0" --append="rtc_cmos.use_acpi_alarm=1"
+#  rpm-ostree kargs --append=""
 
 # Add boot parameters needed for a Framework 16 laptop
 #framework-16:
