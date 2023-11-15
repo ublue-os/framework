@@ -1,5 +1,5 @@
 # Add boot parameters needed for a Framework 13 laptop
-framework-13:
+framework-13-intel:
   #!/usr/bin/env bash
   CPU_MODEL=$(grep -m 1 "model name" /proc/cpuinfo)
   if grep -q "13th Gen" <<< $CPU_MODEL
@@ -9,6 +9,9 @@ framework-13:
   then
     rpm-ostree kargs --append="module_blacklist=hid_sensor_hub"
   fi
+
+framework-13-amd:
+  rpm-ostree kargs --append="amdgpu.sg_display=0" --append="rtc_cmos.use_acpi_alarm=1"
 
 # Add boot parameters needed for a Framework 16 laptop
 #framework-16:
