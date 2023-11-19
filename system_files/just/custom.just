@@ -1,5 +1,5 @@
 # Add boot parameters needed for a Framework 13 laptop
-framework-13:
+framework-13-intel:
     #!/usr/bin/env bash
     CPU_MODEL=$(grep -m 1 "model name" /proc/cpuinfo)
     if grep -q "13th Gen" <<< $CPU_MODEL
