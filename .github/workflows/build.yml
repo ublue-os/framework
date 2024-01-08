@@ -48,7 +48,7 @@ jobs:
             is_latest_version: true
             is_stable_version: true
             is_gts_version: false
-        exclude:
+        exclude: []
           # There is no Fedora 37 version of sericea
 #          - base_image_name: sericea
 #            major_version: 37
