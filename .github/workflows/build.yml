@@ -31,17 +31,17 @@ jobs:
         image_flavor: [-main]
         target_cpu: 
           - amd
-          - intel
+#          - intel
         base_name: [framework]
         base_image_name:
           - silverblue
-          - kinoite
-          - vauxite
-          - sericea
-          - base
-          - lxqt
-          - mate
-          - onyx
+#          - kinoite
+#          - vauxite
+#          - sericea
+#          - base
+#          - lxqt
+#          - mate
+#          - onyx
         major_version: [39]
         include:
           - major_version: 39
@@ -50,12 +50,12 @@ jobs:
             is_gts_version: false
         exclude:
           # There is no Fedora 37 version of sericea
-          - base_image_name: sericea
-            major_version: 37
-          - base_image_name: onyx
-            major_version: 37
-          - base_image_name: onyx
-            major_version: 38
+#          - base_image_name: sericea
+#            major_version: 37
+#          - base_image_name: onyx
+#            major_version: 37
+#          - base_image_name: onyx
+#            major_version: 38
     steps:
       # Checkout push-to-registry action GitHub repository
       - name: Checkout Push to Registry action

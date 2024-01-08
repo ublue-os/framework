@@ -4,9 +4,12 @@ set -ouex pipefail
 
 RELEASE="$(rpm -E %fedora)"
 
+echo "Building package default package list for $TARGET_CPU"
+
 INCLUDED_PACKAGES=($(jq -r "[(.\"$TARGET_CPU\".include | (.\"$TARGET_CPU\", select(.\"$BASE_IMAGE_NAME\" != null).\"$BASE_IMAGE_NAME\")[]), \
                              (select(.\"$FEDORA_MAJOR_VERSION\" != null).\"$FEDORA_MAJOR_VERSION\".include | (.\"$TARGET_CPU\", select(.\"$BASE_IMAGE_NAME\" != null).\"$BASE_IMAGE_NAME\")[])] \
                              | sort | unique[]" /tmp/framework-packages.json))
+                             
 EXCLUDED_PACKAGES=($(jq -r "[(.\"$TARGET_CPU\".exclude | (.\"$TARGET_CPU\", select(.\"$BASE_IMAGE_NAME\" != null).\"$BASE_IMAGE_NAME\")[]), \
                              (select(.\"$FEDORA_MAJOR_VERSION\" != null).\"$FEDORA_MAJOR_VERSION\".exclude | (.\"$TARGET_CPU\", select(.\"$BASE_IMAGE_NAME\" != null).\"$BASE_IMAGE_NAME\")[])] \
                              | sort | unique[]" /tmp/framework-packages.json))
