@@ -29,6 +29,9 @@ jobs:
       fail-fast: false
       matrix:
         image_flavor: [-main]
+        target_cpu: 
+          - amd
+          - intel
         base_name: [framework]
         base_image_name:
           - silverblue
@@ -39,16 +42,12 @@ jobs:
           - lxqt
           - mate
           - onyx
-        major_version: [38, 39]
+        major_version: [39]
         include:
           - major_version: 39
             is_latest_version: true
             is_stable_version: true
             is_gts_version: false
-          - major_version: 38
-            is_latest_version: false
-            is_stable_version: true
-            is_gts_version: true
         exclude:
           # There is no Fedora 37 version of sericea
           - base_image_name: sericea
@@ -76,10 +75,11 @@ jobs:
       - name: Matrix Variables
         run: |
           echo "BASE_IMAGE_NAME=${{ matrix.base_image_name }}" >> $GITHUB_ENV
+          echo "TARGET_CPU=${{ matrix.target_cpu }}" >> $GITHUB_ENV   
           if [[ "${{ matrix.image_flavor }}" =~ "main" ]]; then
-              echo "IMAGE_NAME=${{ format('{0}-{1}', matrix.base_image_name, matrix.base_name) }}" >> $GITHUB_ENV
+              echo "IMAGE_NAME=${{ format('{0}-{1}-{2}', matrix.base_image_name, matrix.base_name, matrix.target_cpu) }}" >> $GITHUB_ENV
           else
-              echo "IMAGE_NAME=${{ format('{0}-{1}{2}', matrix.base_image_name, matrix.base_name, matrix.image_flavor) }}" >> $GITHUB_ENV
+              echo "IMAGE_NAME=${{ format('{0}-{1}-{2}-{3}', matrix.base_image_name, matrix.base_name, matrix.target_cpu, matrix.image_flavor) }}" >> $GITHUB_ENV
           fi
 
       - name: Generate tags
@@ -154,6 +154,7 @@ jobs:
           tags: |
             ${{ steps.generate-tags.outputs.alias_tags }}
           build-args: |
+            TARGET_CPU=${{ matrix.target_cpu }}
             IMAGE_FLAVOR=${{ matrix.image_flavor }}
             BASE_IMAGE_NAME=${{ matrix.base_image_name }}
             FEDORA_MAJOR_VERSION=${{ matrix.major_version }}
