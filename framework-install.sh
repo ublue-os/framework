@@ -4,12 +4,17 @@ set -ouex pipefail
 
 RELEASE="$(rpm -E %fedora)"
 
-INCLUDED_PACKAGES=($(jq -r "[(.all.include | (.all, select(.\"$BASE_IMAGE_NAME\" != null).\"$BASE_IMAGE_NAME\")[]), \
-                             (select(.\"$FEDORA_MAJOR_VERSION\" != null).\"$FEDORA_MAJOR_VERSION\".include | (.all, select(.\"$BASE_IMAGE_NAME\" != null).\"$BASE_IMAGE_NAME\")[])] \
-                             | sort | unique[]" /tmp/framework-packages.json))
-EXCLUDED_PACKAGES=($(jq -r "[(.all.exclude | (.all, select(.\"$BASE_IMAGE_NAME\" != null).\"$BASE_IMAGE_NAME\")[]), \
-                             (select(.\"$FEDORA_MAJOR_VERSION\" != null).\"$FEDORA_MAJOR_VERSION\".exclude | (.all, select(.\"$BASE_IMAGE_NAME\" != null).\"$BASE_IMAGE_NAME\")[])] \
-                             | sort | unique[]" /tmp/framework-packages.json))
+DEFAULT_PACKAGES="/tmp/framework-packages.json"
+
+echo "Building package default package list for $TARGET_CPU"
+
+INCLUDED_PACKAGES=(
+	$(jq -r "([.all.include, (.\"$TARGET_CPU\".include | (.packages, .\"$FEDORA_MAJOR_VERSION-packages\"))] | flatten | sort | unique[])" ${DEFAULT_PACKAGES})
+)
+
+EXCLUDED_PACKAGES=(
+	$(jq -r "([.all.exclude, (.\"$TARGET_CPU\".exclude | (.packages, .\"$FEDORA_MAJOR_VERSION-packages\"))] | flatten | sort | unique[])" ${DEFAULT_PACKAGES})
+)
 
 
 if [[ "${#EXCLUDED_PACKAGES[@]}" -gt 0 ]]; then
@@ -33,3 +38,16 @@ else
     echo "No packages to install."
 
 fi
+
+
+##################
+# Setup Services #
+##################
+
+# Intel Specific Services to start
+if [[ "${TARGET_CPU}" == "intel" ]]; then
+    systemctl enable tlp
+fi
+
+# Agnostic Services to start
+systemctl enable fprintd
