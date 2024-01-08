@@ -1,33 +1,45 @@
 {
     "all": {
+        "include": [
+                "fprintd"
+        ],
+        "exclude": []    
+    },
+    "intel": {
         "include": {
-            "all": [
-                "fprintd",
+            "packages": [
                 "tlp",
                 "tlp-rdw",
                 "powertop"
-            ]
+            ],
+            "38-packages": [],
+            "39-packages": []            
         },
         "exclude": {
-            "all": [
+            "packages": [
                 "power-profiles-daemon"
-            ]
+            ],
+            "38-packages": [],
+            "39-packages": []            
         }
     },
-    "38": {
+    "amd": {
+	"note-ref": "https://knowledgebase.frame.work/en_us/optimizing-ubuntu-battery-life-Sye_48Lg3",    
         "include": {
-            "all": []
+            "packages": [
+                "power-profiles-daemon"
+            ],
+            "38-packages": [],
+            "39-packages": []            
         },
         "exclude": {
-            "all": []
-        }
-    },
-    "39": {
-        "include": {
-            "all": []
-        },
-        "exclude": {
-            "all": []
-        }
+            "packages": [
+                "tlp",
+                "tlp-rdw",
+                "powertop"
+	    ],
+            "38-packages": [],
+            "39-packages": []	    
+        }    	   
     }
 }
