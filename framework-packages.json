@@ -1,5 +1,5 @@
 {
-    "all": {
+    "intel": {
         "include": {
             "all": [
                 "fprintd",
@@ -13,6 +13,22 @@
                 "power-profiles-daemon"
             ]
         }
+    },
+    "amd": {
+	"note-ref": "https://knowledgebase.frame.work/en_us/optimizing-ubuntu-battery-life-Sye_48Lg3",    
+        "include": {
+            "all": [
+                "fprintd",           
+                "power-profiles-daemon"
+            ]
+        },
+        "exclude": {
+            "all": [
+                "tlp",
+                "tlp-rdw",
+                "powertop"
+		]
+        }    	   
     },
     "38": {
         "include": {
