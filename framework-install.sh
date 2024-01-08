@@ -4,15 +4,18 @@ set -ouex pipefail
 
 RELEASE="$(rpm -E %fedora)"
 
+DEFAULT_PACKAGES="/tmp/framework-packages.json"
+
 echo "Building package default package list for $TARGET_CPU"
 
-INCLUDED_PACKAGES=($(jq -r "[(.\"$TARGET_CPU\".include | (.\"$TARGET_CPU\", select(.\"$BASE_IMAGE_NAME\" != null).\"$BASE_IMAGE_NAME\")[]), \
-                             (select(.\"$FEDORA_MAJOR_VERSION\" != null).\"$FEDORA_MAJOR_VERSION\".include | (.\"$TARGET_CPU\", select(.\"$BASE_IMAGE_NAME\" != null).\"$BASE_IMAGE_NAME\")[])] \
-                             | sort | unique[]" /tmp/framework-packages.json))
-                             
-EXCLUDED_PACKAGES=($(jq -r "[(.\"$TARGET_CPU\".exclude | (.\"$TARGET_CPU\", select(.\"$BASE_IMAGE_NAME\" != null).\"$BASE_IMAGE_NAME\")[]), \
-                             (select(.\"$FEDORA_MAJOR_VERSION\" != null).\"$FEDORA_MAJOR_VERSION\".exclude | (.\"$TARGET_CPU\", select(.\"$BASE_IMAGE_NAME\" != null).\"$BASE_IMAGE_NAME\")[])] \
-                             | sort | unique[]" /tmp/framework-packages.json))
+INCLUDED_PACKAGES=(
+	$(jq -r "([.all.include, (.\"$TARGET_CPU\".include | (.packages, .\"$FEDORA_MAJOR_VERSION-packages\"))] | flatten | sort | unique[])" ${DEFAULT_PACKAGES})
+)
+
+EXCLUDED_PACKAGES=(
+	$(jq -r "([.all.exclude, (.\"$TARGET_CPU\".exclude | (.packages, .\"$FEDORA_MAJOR_VERSION-packages\"))] | flatten | sort | unique[])" ${DEFAULT_PACKAGES})
+)
+
 
 if [[ "${#EXCLUDED_PACKAGES[@]}" -gt 0 ]]; then
     EXCLUDED_PACKAGES=($(rpm -qa --queryformat='%{NAME} ' ${EXCLUDED_PACKAGES[@]}))

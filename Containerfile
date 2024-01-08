@@ -7,7 +7,7 @@ ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION:-39}"
 FROM ${BASE_IMAGE}:${FEDORA_MAJOR_VERSION} AS framework
 ARG BASE_IMAGE_NAME="${BASE_IMAGE_NAME:-silverblue}"
 ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION:-39}"
-ARG TARGET_CPU="${TARGET_CPU:-intel}"
+ARG TARGET_CPU="${TARGET_CPU}"
 
 # Store a copy of files so we not have to polute
 # every image with image specific files.
