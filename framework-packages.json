@@ -3,6 +3,7 @@
         "include": {
             "all": [
                 "fprintd",
+                "lshw",
                 "tlp",
                 "tlp-rdw",
                 "powertop",

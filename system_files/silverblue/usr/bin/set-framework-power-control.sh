@@ -24,10 +24,8 @@ swap_power(){
   esac
 }
 
-
 if [[ "${CPU_VENDOR^^}" =~ "AMD" ]]; then
   swap_power amd
 elif [[ "${CPU_VENDOR^^}" =~ "INTEL" ]]; then
   swap_power intel
 fi
-

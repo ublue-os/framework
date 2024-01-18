@@ -1,0 +1,9 @@
+[Unit]
+Description=Set the correct power control services for Framework Laptops based on CPU Vendor 
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/set-power-control.sh
+
+[Install]
+WantedBy=multi-user.target
