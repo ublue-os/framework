@@ -3,7 +3,7 @@ Description=Set the correct power control services for Framework Laptops based o
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/set-power-control.sh
+ExecStart=/usr/bin/set-framework-power-control.sh
 
 [Install]
 WantedBy=multi-user.target
