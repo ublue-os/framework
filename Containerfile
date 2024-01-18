@@ -20,9 +20,11 @@ COPY framework-packages.json /tmp/framework-packages.json
 # Setup specific files and commands for Silverblue based flavors
 RUN if grep -q "silverblue" <<< "${BASE_IMAGE_NAME}"; then \
     rsync -rvK /tmp/silverblue/ / && \    
-    systemctl enable dconf-update && \
-    systemctl enable set-framework-power-control \
+    systemctl enable dconf-update
 ; fi
+
+# Enable power control service
+RUN systemctl enable set-framework-power-control
 
 # Setup things which are the same for every image
 RUN wget https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-$(rpm -E %fedora)/ublue-os-staging-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_ublue-os_staging.repo && \
