@@ -20,7 +20,8 @@ COPY framework-packages.json /tmp/framework-packages.json
 # Setup specific files and commands for Silverblue based flavors
 RUN if grep -q "silverblue" <<< "${BASE_IMAGE_NAME}"; then \
     rsync -rvK /tmp/silverblue/ / && \    
-    systemctl enable dconf-update \
+    systemctl enable dconf-update && \
+    systemctl enable set-framework-power-control \
 ; fi
 
 # Setup things which are the same for every image
