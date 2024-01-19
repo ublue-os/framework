@@ -32,13 +32,13 @@ jobs:
         base_name: [framework]
         base_image_name:
           - silverblue
-          - kinoite
-          - vauxite
-          - sericea
-          - base
-          - lxqt
-          - mate
-          - onyx
+          # - kinoite
+          # - vauxite
+          # - sericea
+          # - base
+          # - lxqt
+          # - mate
+          # - onyx
         major_version: [38, 39]
         include:
           - major_version: 39
@@ -196,17 +196,17 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Sign container
-      - uses: sigstore/cosign-installer@v3.1.2
-        if: github.event_name != 'pull_request'
+      # - uses: sigstore/cosign-installer@v3.1.2
+      #   if: github.event_name != 'pull_request'
 
-      - name: Sign container image
-        if: github.event_name != 'pull_request'
-        run: |
-          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}@${TAGS}
-        env:
-          TAGS: ${{ steps.push.outputs.digest }}
-          COSIGN_EXPERIMENTAL: false
-          COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
+      # - name: Sign container image
+      #   if: github.event_name != 'pull_request'
+      #   run: |
+      #     cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}@${TAGS}
+      #   env:
+      #     TAGS: ${{ steps.push.outputs.digest }}
+      #     COSIGN_EXPERIMENTAL: false
+      #     COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
 
       - name: Echo outputs
         if: github.event_name != 'pull_request'
