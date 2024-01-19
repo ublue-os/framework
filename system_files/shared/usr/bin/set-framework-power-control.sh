@@ -8,24 +8,32 @@ TLP="tlp"
 
 CPU_VENDOR=$(lshw -json -class CPU | jq -r ".[].vendor")
 
-swap_power(){
-  case $1 in
-    amd)
-      systemctl is-enabled ${TLP} > /dev/null && systemctl disable --now ${TLP} 
-      echo "Enabling ${PPD}"
-      systemctl is-enabled ${PPD} > /dev/null || systemctl enable --now ${PPD} 
-      ;;
-    # Default to TLP
-    *)
-      systemctl is-enabled ${PPD} > /dev/null && systemctl disable --now ${PPD} 
-      echo "Enabling ${TLP}"
-      systemctl is-enabled ${TLP} > /dev/null || systemctl enable --now ${TLP}       
-      ;;
-  esac
+disable_service() {
+  service=$1
+
+  if systemctl is-enabled ${service}; then
+    echo "Disabling ${service}"
+    systemctl disable --now "${service}"
+  else
+    echo "${service} is not enabled"
+  fi
+}
+
+enable_service() {
+  service=$1
+
+  if systemctl is-enabled ${service}; then
+    echo "${service} is already enabled"
+  else
+    echo "Enabling ${service}"
+    systemctl enable --now "${service}"
+  fi
 }
 
 if [[ "${CPU_VENDOR^^}" =~ "AMD" ]]; then
-  swap_power amd
+    disable_service ${TLP}
+    enable_service ${PPD}
 elif [[ "${CPU_VENDOR^^}" =~ "INTEL" ]]; then
-  swap_power intel
+    disable_service ${PPD}
+    enable_service ${TLP}
 fi
