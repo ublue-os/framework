@@ -37,6 +37,7 @@ jobs:
           - sericea
           - base
           - lxqt
+          - lazurite
           - mate
           - onyx
         major_version: [38, 39]
@@ -50,13 +51,14 @@ jobs:
             is_stable_version: true
             is_gts_version: true
         exclude:
-          # There is no Fedora 37 version of sericea
-          - base_image_name: sericea
-            major_version: 37
-          - base_image_name: onyx
-            major_version: 37
+          # There is no Fedora 38 version of onyx or lazurite
           - base_image_name: onyx
             major_version: 38
+          - base_image_name: lazurite
+            major_version: 38
+          # There is no Fedora 39 version of lxqt as it was replaced by lazurite
+          - base_image_name: lxqt
+            major_version: 39
     steps:
       # Checkout push-to-registry action GitHub repository
       - name: Checkout Push to Registry action
