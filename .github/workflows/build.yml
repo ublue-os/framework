@@ -52,12 +52,12 @@ jobs:
             is_gts_version: true
         exclude:
           # There is no Fedora 38 version of onyx or lazurite
-          - image_name: onyx
+          - base_image_name: onyx
             major_version: 38
-          - image_name: lazurite
+          - base_image_name: lazurite
             major_version: 38
           # There is no Fedora 39 version of lxqt as it was replaced by lazurite
-          - image_name: lxqt
+          - base_image_name: lxqt
             major_version: 39
     steps:
       # Checkout push-to-registry action GitHub repository
