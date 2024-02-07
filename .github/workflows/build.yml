@@ -129,8 +129,14 @@ jobs:
 
       - name: Get current Fedora version
         id: labels
+        shell: bash
         run: |
+            set -eo pipefail
             ver=$(skopeo inspect docker://ghcr.io/ublue-os/${{ matrix.base_image_name }}${{ matrix.image_flavor }}:${{ matrix.major_version }} | jq -r '.Labels["org.opencontainers.image.version"]')
+            if [ -z "$ver" ] || [ "null" = "$ver" ]; then
+              echo "inspected image version must not be empty or null"
+              exit 1
+            fi
             echo "VERSION=$ver" >> $GITHUB_OUTPUT
 
       # Build metadata
